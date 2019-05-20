@@ -1,0 +1,22 @@
+<main>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input formControlName="email" id="email" type="email" autocomplete="current-email">
+      <div *ngIf="form.email.dirty && form.email.errors" class="form-feedback">
+        El correo es invalido
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="password">Contraseña</label>
+      <input formControlName="password" id="password" type="password" autocomplete="current-password">
+      <div *ngIf="form.password.dirty && form.password.errors && form.password.errors.minlength" class="form-feedback">
+        El password es muy corto
+      </div>
+    </div>
+    <div class="form-group">
+      <button [disabled]="!loginForm.valid" type="submit">Ingresar</button>
+    </div>
+    <a routerLink="/signup" routerLinkActive="active">Registrarse</a>
+  </form>
+</main>

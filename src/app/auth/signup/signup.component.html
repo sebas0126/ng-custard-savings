@@ -1,0 +1,32 @@
+<main>
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input formControlName="email" id="email" type="email" autocomplete="current-email">
+      <div *ngIf="form.email.dirty && form.email.errors" class="form-feedback">
+        El correo es invalido
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="password">Contraseña</label>
+      <input formControlName="password" id="password" type="password" autocomplete="current-password">
+      <div *ngIf="form.password.dirty && form.password.errors && form.password.errors.minlength" class="form-feedback">
+        La contraseña es muy corta
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="password">Repetir contraseña</label>
+      <input formControlName="repeatPassword" id="repeat-password" type="password" autocomplete="repeat-password">
+      <div *ngIf="form.repeatPassword.dirty && form.repeatPassword.errors && form.repeatPassword.errors.minlength" class="form-feedback">
+        La contraseña es muy corta
+      </div>
+      <div *ngIf="form.repeatPassword.dirty && form.repeatPassword.errors && form.repeatPassword.errors.mustMatch" class="form-feedback">
+        Las contraseñas deben coincidir
+      </div>
+    </div>
+    <div class="form-group">
+      <button [disabled]="!signupForm.valid" type="submit">Registrarse</button>
+    </div>
+  </form>
+  {{signupForm.valid | json}}
+</main>
