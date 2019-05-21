@@ -3,20 +3,24 @@
     <div class="form-group">
       <label for="email">Email</label>
       <input formControlName="email" id="email" type="email" autocomplete="current-email">
-      <div *ngIf="form.email.dirty && form.email.errors" class="form-feedback">
-        El correo es invalido
-      </div>
+      <ul *ngIf="form.email.value && form.email.dirty && form.email.errors" class="form-feedback">
+        <li *ngIf="form.email.errors.email">Correo no valido</li>
+      </ul>
     </div>
     <div class="form-group">
       <label for="password">Contraseña</label>
       <input formControlName="password" id="password" type="password" autocomplete="current-password">
-      <div *ngIf="form.password.dirty && form.password.errors && form.password.errors.minlength" class="form-feedback">
-        El password es muy corto
-      </div>
+      <ul *ngIf="form.password.value && form.password.dirty && form.password.errors && form.password.errors" class="form-feedback">
+        <li *ngIf="form.password.errors.minlength">Contraseña muy corta</li>
+      </ul>
     </div>
-    <div class="form-group">
-      <button [disabled]="!loginForm.valid" type="submit">Ingresar</button>
+    <div class="general-error" [ngClass]="{ 'show': error }">
+      {{error}}
     </div>
-    <a routerLink="/signup" routerLinkActive="active">Registrarse</a>
+    <div class="action-group column">
+      <button [disabled]="!loginForm.valid" class="primary" type="submit">Ingresar</button>
+      <a routerLink="/signup" routerLinkActive="active">Registrarse</a>
+    </div>
   </form>
 </main>
+<app-footer></app-footer>

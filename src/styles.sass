@@ -1,1 +1,107 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap')
+@import theme
+
+html
+  font-family: 'Source Sans Pro', sans-serif
+
+body
+  background-color: $primary-xlight
+  height: 100vh
+  margin: 0
+  display: flex
+  justify-content: center
+  align-items: center
+
+app-footer
+  position: fixed
+  bottom: 0
+  left: 0
+  width: 100%
+
+.general-error
+  background-color: rgba(239,83,80, 0.4)
+  color: $general-error
+  text-align: center
+  border-radius: 4px
+  &.show
+    padding: 6px
+
+.form-feedback
+  margin: 0
+  position: absolute
+  bottom: 52px
+  left: 40%
+  background-color: rgba(239,83,80, 0.6)
+  padding: 6px 8px 6px 24px
+  border-radius: 10px 10px 10px 0
+  color: $general-light
+  white-space: nowrap
+
+.form-group
+  @media (max-width: 600px)
+    flex-direction: column
+  display: flex
+  padding: 12px
+  justify-content: center
+  position: relative
+  label
+    margin: 8px 8px 8px 0
+    flex: 2 1
+  input
+    flex: 3 2
+
+.action-group
+  @media (max-width: 600px)
+    flex-direction: column
+  display: flex
+  justify-content: space-evenly
+  padding-top: 12px
+  &.column
+    flex-direction: column
+    align-items: center
+  button
+    width: 150px
+
+
+label
+  color: $general-dark
+
+input
+  border: none
+  background-color: $general-light
+  min-height: 28px
+  border-radius: 3px
+  padding: 0px 8px
+  font-size: 16px
+
+button
+  border: none
+  padding: 12px
+  border-radius: 3px
+  color: $secondary-xdark
+  font-size: 16px
+  transition: all 500ms ease
+  &.primary
+    background-color: $secondary
+    box-shadow: 0 3px 0 $secondary-dark
+    &:not([disabled]):hover
+      color: $secondary-dark
+      background-color: $secondary-light
+      box-shadow: 0 2px 0 $secondary
+      transform: translateY(1px)
+  &:disabled
+    background-color: $general-disabled
+    box-shadow: 0 3px 0 $general-disabled-dark
+    color: $general-dark
+
+a
+  margin: 12px
+  text-align: center
+  color: $link
+  &:hover
+    color: $link-light
+  &:visited
+    color: $link-visited
+    &:hover
+      color: $link-visited-light

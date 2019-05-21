@@ -9,20 +9,21 @@ import { environment } from '../environments/environment';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 
-import { HeaderComponent, FooterComponent } from './common/_components';
+import { ContentModule } from './content/content.module';
+import { ComponentsModule } from './core/_components/components.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    FooterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     CoreModule,
-    AuthModule
+    AuthModule,
+    ComponentsModule,
+    ContentModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

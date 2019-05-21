@@ -2,19 +2,18 @@ import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import {  } from '@angular/fire/';
 
 import { User } from '../../_model/User.model';
 
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Collections } from '../../_strings/constants';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  user: AngularFirestoreDocument<User>;
+  user: AngularFirestoreDocument<User> = null;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -25,22 +24,35 @@ export class AuthService {
     return this.user !== null;
   }
 
-  async login(email: string, password: string){
-    try{
-      await this.afAuth.auth.signInWithEmailAndPassword(email, password);
-      
-      console.log(this.afAuth.user);
-      console.log(this.afStore.doc(`users/${email}`));
-    }catch(e){
-      console.log(e);
+  async login(email: string, password: string) {
+    try {
+      let credentials = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
+      this.user = this.afStore.doc(`${Collections.users}/${credentials.user.uid}`);
+    } catch (e) {
+      return Promise.reject();
     }
   }
 
-  async signup(email: string, password: string){
-    await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+  async signup(email: string, password: string, firstname: string, lastname: string) {
+    try {
+      const credentials = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+      return this.createUser(credentials.user.uid, firstname, lastname, email);
+    } catch (e) {
+      return Promise.reject();
+    }
   }
 
-  async logout(){
+  async logout() {
     await this.afAuth.auth.signOut();
+    this.user = null;
+  }
+
+  createUser(uid: string, firstname: string, lastname: string, email: string) {
+    this.user = this.afStore.doc(`${Collections.users}/${uid}`);
+    return this.user.set({
+      firstname,
+      lastname, 
+      email
+    });
   }
 }
