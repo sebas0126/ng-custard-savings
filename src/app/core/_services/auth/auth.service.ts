@@ -1,33 +1,28 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-
-import { User } from '../../_model/User.model';
 
 import { Collections } from '../../_strings/constants';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  user: AngularFirestoreDocument<User> = null;
-
   constructor(
     private afAuth: AngularFireAuth,
-    private afStore: AngularFirestore) {
+  ) {
   }
 
-  get isLoggedIn(): boolean {
-    return this.user !== null;
+  get isLoggedIn(): Observable<boolean> {
+    return this.afAuth.authState.pipe(take(1), map(auth => !!auth));
   }
 
   async login(email: string, password: string) {
     try {
-      let credentials = await this.afAuth.auth.signInWithEmailAndPassword(email, password);
-      this.user = this.afStore.doc(`${Collections.users}/${credentials.user.uid}`);
+      await this.afAuth.auth.signInWithEmailAndPassword(email, password);
     } catch (e) {
       return Promise.reject();
     }
@@ -35,8 +30,7 @@ export class AuthService {
 
   async signup(email: string, password: string, firstname: string, lastname: string) {
     try {
-      const credentials = await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
-      return this.createUser(credentials.user.uid, firstname, lastname, email);
+      return await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
     } catch (e) {
       return Promise.reject();
     }
@@ -44,15 +38,6 @@ export class AuthService {
 
   async logout() {
     await this.afAuth.auth.signOut();
-    this.user = null;
   }
 
-  createUser(uid: string, firstname: string, lastname: string, email: string) {
-    this.user = this.afStore.doc(`${Collections.users}/${uid}`);
-    return this.user.set({
-      firstname,
-      lastname, 
-      email
-    });
-  }
 }

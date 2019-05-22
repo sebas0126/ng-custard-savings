@@ -1,0 +1,46 @@
+@import ../../../../theme
+  
+.hide
+  display: none
+
+.modal-container
+  display: flex
+  justify-content: center
+  align-items: center
+  position: fixed
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  z-index: 1000
+  .modal-body
+    background-color: $general-light
+    border-radius: 4px
+    overflow: hidden
+    z-index: 1001
+    position: relative
+    i.material-icons
+      position: absolute
+      top: 5px
+      right: 5px
+      font-size: 28px
+      color: $primary-dark
+      cursor: pointer
+    ::ng-deep header
+      padding: 6px 48px 6px 12px
+      background-color: $primary-light
+      h1, h2, h3, h4, h5, h6
+        font-size: 18px
+        margin: 0
+    ::ng-deep main
+      padding: 12px
+
+.modal-background 
+  position: fixed
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  background-color: $general-dark
+  opacity: 0.8
+  z-index: 900

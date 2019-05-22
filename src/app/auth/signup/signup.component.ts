@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/core/_services/auth/auth.service';
 
 import { MustMatch } from '../validators';
 import { Errors, Routes } from 'src/app/core/_strings/constants';
+import { UserService } from 'src/app/core/_services/user/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,6 +21,7 @@ export class SignupComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private userService: UserService,
     private router: Router) { }
 
   ngOnInit() {
@@ -42,11 +44,16 @@ export class SignupComponent implements OnInit {
       this.form.email.value,
       this.form.password.value,
       this.form.firstname.value,
-      this.form.lastname.value).then(() => {
-        this.router.navigate([Routes.home]);
-      }).catch(e => {
-        this.error = Errors.signup;
-      })
+      this.form.lastname.value)
+      .then((data) => {
+        this.userService.createUser(
+          data.user.uid,
+          this.form.firstname.value,
+          this.form.lastname.value,
+          this.form.email.value)
+          .then(res => this.router.navigate([Routes.home]))
+          .catch(err => this.error = Errors.userCreate)
+      }).catch(e => this.error = Errors.signup)
   }
 
 }

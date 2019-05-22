@@ -2,22 +2,19 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap')
 @import theme
 
-html
-  font-family: 'Source Sans Pro', sans-serif
-
-body
-  background-color: $primary-xlight
-  height: 100vh
+html, body
   margin: 0
-  display: flex
-  justify-content: center
-  align-items: center
 
-app-footer
-  position: fixed
-  bottom: 0
-  left: 0
-  width: 100%
+h1, h2, h3, h4, h5, h6
+  color: $general-dark
+
+app-root
+  font-family: 'Source Sans Pro', sans-serif
+  background-color: $primary-xlight
+  width: 100vw
+  height: 100vh
+  display: flex
+  flex-direction: column
 
 .general-error
   background-color: rgba(239,83,80, 0.4)
@@ -48,7 +45,7 @@ app-footer
   label
     margin: 8px 8px 8px 0
     flex: 2 1
-  input
+  input, select
     flex: 3 2
 
 .action-group
@@ -75,16 +72,22 @@ input
   padding: 0px 8px
   font-size: 16px
 
+select
+  font-family: 'Source Sans Pro', sans-serif;
+  color: $general-dark
+  font-size: 16px
+
 button
   border: none
   padding: 12px
   border-radius: 3px
-  color: $secondary-xdark
   font-size: 16px
+  box-shadow: 0 3px 0 gray
   transition: all 500ms ease
   &.primary
     background-color: $secondary
     box-shadow: 0 3px 0 $secondary-dark
+    color: $secondary-xdark
     &:not([disabled]):hover
       color: $secondary-dark
       background-color: $secondary-light

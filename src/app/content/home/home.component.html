@@ -1,1 +1,21 @@
-<h1>It works!</h1>
+<h1>Home works!</h1>
+<button (click)="showModal()">Show</button>
+<cst-modal id="join-modal">
+  <header>
+    <h2>Seleccione la natillera a la que desea solicitar ingreso</h2>
+  </header>
+  <main>
+    <form [formGroup]="custsavForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="custsav">Natillera</label>
+        <select formControlName="custsav" id="custsav" autocomplete="custsav">
+          <option *ngFor="let opt of test">{{opt.name}}</option>
+        </select>
+      </div>
+      <div class="action-group">
+          <button class="primary" type="submit">Solicitar</button>
+      </div>
+    </form>
+  </main>
+
+</cst-modal>

@@ -1,7 +1,9 @@
 export enum Routes {
   login = '/login',
   signup = '/signup',
-  home = '/content/home'
+  home = '/content/home',
+  join = '/content/join',
+  dashboard = '/content/dashboard'
 }
 
 export enum Collections {
@@ -27,5 +29,6 @@ export enum Months {
 
 export enum Errors {
   signup = 'No se pudo registrar el usuario',
-  login = 'Usuario o contraseña no valida'
+  login = 'Usuario o contraseña no valida',
+  userCreate = 'No se pudo crear el usuario'
 }

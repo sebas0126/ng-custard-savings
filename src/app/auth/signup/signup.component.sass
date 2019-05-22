@@ -1,16 +1,26 @@
 @import ../../../theme
   
+\:host
+  height: 100%
+  display: flex
+  flex-direction: column
+
 main
-  width: 50vw
-  padding: 24px
-  background-color: $primary-light
-  border-radius: 8px
-  box-shadow: 4px 4px 2px $primary
-  .actions
-    flex-direction: column
-    button
-      align-self: center
+  flex: 14 1
+  display: flex
+  justify-content: center
+  align-items: center
+  form
+    background-color: $primary-light
+    border-radius: 8px
+    box-shadow: 4px 4px 2px $primary
+    padding: 24px
+    .actions
+      flex-direction: column
+      button
+        align-self: center
 
 @media (max-width: 600px)
   main
-    width: 100vw
+    form
+      width: 80vw

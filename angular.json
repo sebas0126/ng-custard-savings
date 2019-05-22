@@ -28,7 +28,8 @@
             ],
             "styles": [
               "src/styles.sass",
-              "src/theme.sass"
+              "src/theme.sass",
+              "src/assets/fonts/material-icons/material-icons.css"
             ],
             "scripts": [],
             "es5BrowserSupport": true

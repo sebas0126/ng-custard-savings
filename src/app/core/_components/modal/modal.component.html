@@ -1,0 +1,9 @@
+<div [ngClass]="{'hide': !show }">
+	<div class="modal-background"></div>
+	<div class="modal-container">
+			<div class="modal-body">
+				<i class="material-icons" (click)="close()">close</i>
+				<ng-content></ng-content>
+			</div>
+		</div>
+</div>
