@@ -1,4 +1,46 @@
 @import ../../../theme
   
 \:host
-  flex: 14 1
+  flex: 3 1
+  padding: 12px
+
+#information
+  display: flex
+  flex-direction: column
+  .info
+    display: flex
+    padding: 12px 6px
+    margin: 0 0 12px 0
+    .type
+      flex: 1 1 10%
+      display: flex
+      justify-content: center
+      align-items: center
+      max-width: 10%
+      i
+        font-size: 36px
+    .content
+      flex: 6 1
+      display: flex
+      align-items: center
+    .action
+      flex: 2 1
+      display: flex
+      justify-content: center
+      align-items: center
+    &.error
+      background-color: $general-error-trans
+      border: 2px dotted $general-error
+      .type
+        i
+          color: $general-error
+      .content
+        color: $general-light
+    &.warning
+      background-color: $general-warning-trans
+      border: 2px dotted $general-warning-dark
+      .type
+        i
+          color: $general-warning-dark
+      .content
+        color: $general-warning-dark

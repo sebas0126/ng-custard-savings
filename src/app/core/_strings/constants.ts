@@ -8,8 +8,19 @@ export enum Routes {
 
 export enum Collections {
   users = 'users',
-  custsav = 'custsav',
-  custsavData = 'custsavData'
+  saving = 'saving',
+  savingData = 'savingData',
+  joinRequest = 'joinRequest'
+}
+
+export enum InfoTypes {
+  warning = 'warning',
+  error = 'error',
+  success = 'success'
+}
+
+export enum Actions {
+  request = 'Solicitar'
 }
 
 export enum Months {
@@ -30,5 +41,14 @@ export enum Months {
 export enum Errors {
   signup = 'No se pudo registrar el usuario',
   login = 'Usuario o contraseña no valida',
-  userCreate = 'No se pudo crear el usuario'
+  userCreate = 'No se pudo crear el usuario',
+  noSaving = 'Aun no hace parte de ninguna natillera, debe solicitar el acceso a una'
+}
+
+export enum InfoGroup {
+  savingRequest = "savingRequest"
+}
+
+export enum Warnings {
+  request = 'Tendra acceso a la información cuando el administrador apruebe la solicitud'
 }

@@ -43,17 +43,15 @@ export class SignupComponent implements OnInit {
     this.authService.signup(
       this.form.email.value,
       this.form.password.value,
-      this.form.firstname.value,
-      this.form.lastname.value)
-      .then((data) => {
-        this.userService.createUser(
-          data.user.uid,
-          this.form.firstname.value,
-          this.form.lastname.value,
-          this.form.email.value)
-          .then(res => this.router.navigate([Routes.home]))
-          .catch(err => this.error = Errors.userCreate)
-      }).catch(e => this.error = Errors.signup)
+    ).then((data) => {
+      this.userService.createUser(
+        data.user.uid,
+        this.form.firstname.value,
+        this.form.lastname.value,
+        this.form.email.value
+      ).then(res => this.router.navigate([Routes.home])
+      ).catch(err => this.error = Errors.userCreate)
+    }).catch(e => this.error = Errors.signup)
   }
 
 }

@@ -1,21 +1,34 @@
-<h1>Home works!</h1>
-<button (click)="showModal()">Show</button>
+<header>{{test}}</header>
+<main>
+  <section id="information">
+    <div class="info" *ngFor="let info of information" [ngClass]="info.type">
+      <div class="type">
+        <i class="material-icons">{{info.icon}}</i>
+      </div>
+      <div class="content">
+        {{info.content}}
+      </div>
+      <div *ngIf="info.action" class="action">
+        <button class="primary" (click)="info.action()">{{info.actionText}}</button>
+      </div>
+    </div>
+  </section>
+</main>
 <cst-modal id="join-modal">
   <header>
     <h2>Seleccione la natillera a la que desea solicitar ingreso</h2>
   </header>
   <main>
-    <form [formGroup]="custsavForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="savingForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="custsav">Natillera</label>
-        <select formControlName="custsav" id="custsav" autocomplete="custsav">
-          <option *ngFor="let opt of test">{{opt.name}}</option>
+        <label for="saving">Natillera</label>
+        <select formControlName="saving" id="saving" autocomplete="saving">
+          <option *ngFor="let opt of savings" [value]="opt.id">{{opt.name}}</option>
         </select>
       </div>
       <div class="action-group">
-          <button class="primary" type="submit">Solicitar</button>
+          <button [disabled]="!savingForm.valid" class="primary" type="submit">Solicitar</button>
       </div>
     </form>
   </main>
-
 </cst-modal>

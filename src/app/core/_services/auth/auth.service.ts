@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import { Collections } from '../../_strings/constants';
 import { Observable, of } from 'rxjs';
 import { take, map } from 'rxjs/operators';
 
@@ -28,7 +27,7 @@ export class AuthService {
     }
   }
 
-  async signup(email: string, password: string, firstname: string, lastname: string) {
+  async signup(email: string, password: string) {
     try {
       return await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
     } catch (e) {

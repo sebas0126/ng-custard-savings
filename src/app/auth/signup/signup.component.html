@@ -11,14 +11,14 @@
       <label for="lastname">Apellido</label>
       <input formControlName="lastname" id="lastname" type="text" autocomplete="last-name">
       <ul *ngIf="form.lastname.value && form.lastname.dirty && form.lastname.errors" class="form-feedback">
-        <li *ngIf="form.firstname.errors.pattern">Apellido no valido</li>
+        <li *ngIf="form.lastname.errors.pattern">Apellido no valido</li>
       </ul>
     </div>
     <div class="form-group">
       <label for="email">Email</label>
       <input formControlName="email" id="email" type="email" autocomplete="current-email">
       <ul *ngIf="form.email.value && form.email.dirty && form.email.errors" class="form-feedback">
-        <li *ngIf="form.firstname.errors.email">Correo no valido</li>
+        <li *ngIf="form.email.errors.email">Correo no valido</li>
       </ul>
     </div>
     <div class="form-group">

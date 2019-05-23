@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
-import { User } from '../../_model/User.model';
+import { User } from '../../_models/User.model';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Collections } from '../../_strings/constants';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -29,17 +30,23 @@ export class UserService {
     })
    }
   
-  createUser(uid: string, firstname: string, lastname: string, email: string) {
+  createUser(uid: string, firstname: string, lastname: string, email: string): Promise<void> {
     this.user = this.getUserDocument(uid);
     return this.user.set({
       firstname,
       lastname,
-      email
+      email,
     });
   }
 
-  getUserCustsav(): any{
-    return this.user.get().pipe(map(snap => snap.data().custsav));
+  getUserState(): Observable<User>{
+    return this.user.valueChanges();
+  }
+
+  getUserSaving(): Observable<string>{
+    return this.user.get().pipe(map(ref => {
+      return ref.data().saving;
+    }));
   }
 
   private getUserDocument(uid: string):AngularFirestoreDocument<User>{
