@@ -1,0 +1,28 @@
+@import ../../../theme
+  
+\:host
+  grid-area: main
+
+header
+  h2
+    margin: 0
+    font-size: 18px
+    padding: 12px
+
+main
+  padding: 12px
+
+#detail
+  width: 100%
+  border: 2px solid $general-disabled-light
+  tr
+    &:nth-child(odd)
+      background-color: $primary-light
+    &:nth-child(even)
+      background-color: $secondary-light
+    &:last-child
+      font-weight: bold
+  td, th
+    &:first-child
+      border-right: 2px solid $general-disabled-light
+  

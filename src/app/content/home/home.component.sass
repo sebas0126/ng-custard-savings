@@ -1,16 +1,52 @@
 @import ../../../theme
-  
-\:host
-  flex: 3 1
-  padding: 12px
 
-#information
-  display: flex
-  flex-direction: column
-  .info
+\:host
+  grid-area: main
+  overflow-y: auto 
+
+main
+  h2
+    margin: 0
+
+#dashboard
+  main
     display: flex
-    padding: 12px 6px
-    margin: 0 0 12px 0
+    flex-wrap: wrap
+    padding: 6px
+    .month
+      transition: all 500ms ease-out
+      display: flex
+      flex: 1 1 14%
+      min-width: 80px
+      margin: 6px 6px
+      min-height: 80px
+      flex-direction: column
+      text-align: center
+      justify-content: center
+      cursor: pointer
+      &.odd
+        background-color: $primary-light
+        &:hover
+          background-color: $primary-xlight
+          box-shadow: 0 0 4px 4px $primary-light
+      &.even
+        background-color: $secondary-light
+        &:hover
+          background-color: $secondary-xlight
+          box-shadow: 0 0 4px 4px $secondary-light
+
+#about
+  flex: 1 1
+
+#messages
+  main
+    display: flex
+    flex-direction: column
+  .message
+    display: flex
+    padding: 6px 0
+    &:not(:last-child)
+      margin: 0 0 12px 0
     .type
       flex: 1 1 10%
       display: flex
@@ -28,6 +64,14 @@
       display: flex
       justify-content: center
       align-items: center
+    &.general
+      background-color: $general-disabled-light
+      border: 2px dotted $general-disabled
+      .type
+        i
+          color: $general-disabled
+      .content
+        color: $general-disabled
     &.error
       background-color: $general-error-trans
       border: 2px dotted $general-error
@@ -44,3 +88,23 @@
           color: $general-warning-dark
       .content
         color: $general-warning-dark
+    &.success
+      background-color: $primary-light
+      border: 2px dotted $primary
+      .type
+        i
+          color: $primary
+      .content
+        color: $primary-xdark
+
+section
+  header
+    padding: 8px 12px
+    background-color: $primary
+    border: 1px solid $primary-light
+    h2
+      font-size: 18px
+  main
+    padding: 12px
+    h1, h2, h3, h4, h5, h6
+      margin: 0

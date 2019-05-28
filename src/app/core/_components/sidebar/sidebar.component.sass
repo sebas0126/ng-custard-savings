@@ -1,7 +1,7 @@
 @import ../../../../theme
   
 \:host
-  flex: 1 1
+  grid-area: sidebar
 
 aside
   height: 100%
@@ -17,5 +17,24 @@ header
     font-size: 18px
 
 main
-  padding: 12px
   flex: 12 1
+  ul
+    margin: 0
+    padding: 0
+    list-style: none
+    li
+      display: flex
+      &:not(:first-child)
+        padding-left: 20px
+      &:nth-child(even)
+        background-color: $secondary-light
+      &:nth-child(odd)
+        background-color: $secondary-xlight
+      &:first-child
+        background-color: transparent
+        paddding: 8px 6px
+      a
+        text-decoration: none
+        text-align: left
+        width: 100%
+        margin: 6px 12px

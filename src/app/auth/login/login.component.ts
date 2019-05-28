@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
   error: string;
   redirect: string;
 
+  showLoading = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -36,6 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.showLoading = true;
     this.error = null;
     this.authService.login(
       this.form.email.value,
@@ -43,6 +46,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate([this.redirect]);
       }).catch(e => {
         this.error = Errors.login;
+        this.showLoading = false;
       })
   }
 

@@ -10,9 +10,15 @@ import { take, map } from 'rxjs/operators';
 })
 export class AuthService {
 
+  uid: string = null;
+
   constructor(
-    private afAuth: AngularFireAuth,
+    private afAuth: AngularFireAuth
   ) {
+    this.afAuth.auth.onAuthStateChanged(auth => {
+      if(auth) this.uid = auth.uid;
+      else this.uid = null;
+    })
   }
 
   get isLoggedIn(): Observable<boolean> {

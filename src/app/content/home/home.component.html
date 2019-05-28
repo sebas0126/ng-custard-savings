@@ -1,22 +1,68 @@
-<header>{{test}}</header>
 <main>
-  <section id="information">
-    <div class="info" *ngFor="let info of information" [ngClass]="info.type">
-      <div class="type">
-        <i class="material-icons">{{info.icon}}</i>
+  <section id="information" *ngIf="savingData">
+    <header>
+      <h2>Información</h2>
+    </header>
+    <main>
+      <app-loading *ngIf="!savingData"></app-loading>
+      <ng-container *ngIf="savingData">
+        <h3>{{savingData.name}}</h3>
+        Participantes: {{savingData.userCount}}
+      </ng-container>
+    </main>
+  </section>
+  <section id="messages">
+    <header>
+      <h2>Mensajes</h2>
+    </header>
+    <main>
+      <div class="user">
+        <div class="message" *ngFor="let msg of userMessages" [ngClass]="msg.type">
+          <div class="type">
+            <i class="material-icons">{{msg.icon}}</i>
+          </div>
+          <div class="content">
+            {{msg.content}}
+          </div>
+          <div *ngIf="msg.action" class="action">
+            <button class="primary" (click)="messageAction[msg.action]()">{{msg.actionText}}</button>
+          </div>
+        </div>
+        <app-loading *ngIf="!userMessages"></app-loading>
       </div>
-      <div class="content">
-        {{info.content}}
+      <div class="general" *ngIf="savingData">
+        <div class="message" *ngFor="let msg of generalMessages" [ngClass]="msg.type">
+          <div class="type">
+            <i class="material-icons">{{msg.icon}}</i>
+          </div>
+          <div class="content">
+            {{msg.content}}
+          </div>
+          <div *ngIf="msg.action" class="action">
+            <button class="primary" (click)="msg.action()">{{msg.actionText}}</button>
+          </div>
+        </div>
+        <app-loading *ngIf="!generalMessages"></app-loading>
       </div>
-      <div *ngIf="info.action" class="action">
-        <button class="primary" (click)="info.action()">{{info.actionText}}</button>
+    </main>
+  </section>
+  <section id="dashboard" *ngIf="savingData">
+    <header>
+      <h2>Resumen</h2>
+    </header>
+    <main>
+      <div (click)="goMonth(i)" class="month" *ngFor="let month of monthlySavings; let odd=odd; let even=even; let i = index"
+        [ngClass]="{'odd': odd, 'even': even}">
+        <h3>{{month.month}}</h3>
+        ${{month.money}}
       </div>
-    </div>
+      <app-loading *ngIf="!monthlySavings"></app-loading>
+    </main>
   </section>
 </main>
 <cst-modal id="join-modal">
   <header>
-    <h2>Seleccione la natillera a la que desea solicitar ingreso</h2>
+    <h3>Seleccione la natillera a la que desea solicitar ingreso</h3>
   </header>
   <main>
     <form [formGroup]="savingForm" (ngSubmit)="onSubmit()">
@@ -27,7 +73,7 @@
         </select>
       </div>
       <div class="action-group">
-          <button [disabled]="!savingForm.valid" class="primary" type="submit">Solicitar</button>
+        <button [disabled]="!savingForm.valid" class="primary" type="submit">Solicitar</button>
       </div>
     </form>
   </main>

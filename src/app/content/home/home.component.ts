@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { ModalService } from 'src/app/core/_services/modal/modal.service';
 import { SavingService } from 'src/app/core/_services/saving/saving.service';
 
-import { InfoTypes, Errors, Actions, Warnings, InfoId, InfoGroup } from 'src/app/core/_strings/constants';
 import { UserService } from 'src/app/core/_services/user/user.service';
 import { SavingData } from 'src/app/core/_models/savingData.model';
+import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { MonthlySaving } from 'src/app/core/_models/monthlySaving.model';
+import { MessageService } from 'src/app/core/_services/message/message.service';
+import { Message } from 'src/app/core/_models/message.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,71 +19,94 @@ import { SavingData } from 'src/app/core/_models/savingData.model';
   styleUrls: ['./home.component.sass']
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   savingForm: FormGroup;
-  savings: Array<any>;
 
+  savings: Array<any>;
   savingId: string;
   savingData: SavingData;
+  monthlySavings: Array<MonthlySaving>;
 
-  information: Array<any> = [];
+  userMessages: Array<Message> = [];
+  generalMessages: Array<Message> = [];
+  months: Array<any> = [];
+
+  userSubscription: Subscription;
+  savingDataSubscription: Subscription;
+  monthlySavingSubscription: Subscription;
+  generalMessageSubscription: Subscription;
+  userMessageSubscription: Subscription;
 
   constructor(
     private modalService: ModalService,
     private formBuilder: FormBuilder,
     private savingService: SavingService,
-    private userService: UserService
+    private userService: UserService,
+    private messageService: MessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.savingForm = this.formBuilder.group({
-      saving: ['', [Validators.required]]
-    });
-    this.savingService.getSavingList().subscribe(data => {
-      this.savings = data;
-    })
-    this.userService.getUserState().subscribe(data => {
-      if (!data.saving) {
-        if (data.request) {
-          this.addInformation(Warnings.request, InfoTypes.warning, InfoGroup.savingRequest);
-        }else{
-          this.addInformation(Errors.noSaving, InfoTypes.error, InfoGroup.savingRequest, this.showModal, Actions.request);
-        }
-      }
-    })
-    this.userService.getUserSaving().subscribe(data => {
-      //OBTENER LOS DATOS DEL SAVING
-    })
+    this.createForm();
+    this.getAllSavings();
+    this.getUserSavingData();
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) this.userSubscription.unsubscribe();
+    if (this.savingDataSubscription) this.savingDataSubscription.unsubscribe();
+    if (this.userMessageSubscription) this.userMessageSubscription.unsubscribe();
+    if (this.generalMessageSubscription) this.generalMessageSubscription.unsubscribe();
   }
 
   get form() {
     return this.savingForm.controls;
   }
 
-  private addInformation(content: string, type: string, group?: string, action?: () => void, actionText?: Actions) {
-    this.information = this.information.filter(x => x.group !== group);
-    this.information.push({
-      content,
-      type,
-      action,
-      actionText,
-      icon: this.getIcon(type),
-      group
+  createForm() {
+    this.savingForm = this.formBuilder.group({
+      saving: ['', [Validators.required]]
     });
   }
 
-  private getIcon(type: string) {
-    switch (type) {
-      case InfoTypes.error:
-        return 'error';
-      case InfoTypes.success:
-        return 'check_circle';
-      case InfoTypes.warning:
-        return 'warning';
-      default:
-        return 'bug_report';
-    }
+  getUserSavingData() {
+    this.userService.getUserState().subscribe(user => {
+      this.getUserMessages();
+      if (user.saving) {
+        this.getSavingData(user.saving);
+        this.getMonthlySavings();
+        this.getGeneralMessages(user.saving);
+      } else {
+        this.savingData = null;
+        if (this.savingDataSubscription) this.savingDataSubscription.unsubscribe();
+      }
+    })
+  }
+
+  getAllSavings() {
+    this.savingService.getSavingList().pipe(first()).subscribe(data => {
+      this.savings = data;
+    })
+  }
+
+  getSavingData(savingId: string) {
+    this.savingService.obtainSavingData(savingId);
+    this.savingDataSubscription = this.savingService.getSavingDataState().subscribe(data => this.savingData = data);
+  }
+
+  getMonthlySavings() {
+    this.monthlySavingSubscription = this.savingService.getAllMonthlySavingsState().subscribe(data => this.monthlySavings = data)
+  }
+
+  getGeneralMessages(savingId: string) {
+    this.messageService.obtainGeneralMessages(savingId);
+    this.generalMessageSubscription = this.messageService.getGeneralMessagesState().subscribe(data => this.generalMessages = data);
+  }
+
+  getUserMessages() {
+    this.messageService.obtainUserMessages();
+    this.userMessageSubscription = this.messageService.getUserMessagesState().subscribe(data => this.userMessages = data);
   }
 
   showModal = () => {
@@ -93,6 +121,14 @@ export class HomeComponent implements OnInit {
   onSubmit() {
     this.savingService.requestJoinSaving(this.form.saving.value);
     this.closeModal();
+  }
+
+  goMonth(month: string){
+    this.router.navigate([`content/month/${month}`]);
+  }
+  
+  messageAction = {
+    joinRequest: this.showModal
   }
 
 }
