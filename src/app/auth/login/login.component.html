@@ -18,9 +18,11 @@
       {{error}}
     </div>
     <div class="action-group column">
-      <button [disabled]="!loginForm.valid" class="primary" type="submit">Ingresar</button>
+      <button [disabled]="!loginForm.valid" class="primary" type="submit">
+        Ingresar
+        <app-loading *ngIf="showLoading"></app-loading>
+      </button>
       <a routerLink="/signup" routerLinkActive="active">Registrarse</a>
-      <app-loading *ngIf="showLoading"></app-loading>
     </div>
   </form>
 </main>

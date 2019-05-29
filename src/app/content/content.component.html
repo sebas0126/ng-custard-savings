@@ -1,4 +1,6 @@
 <app-header></app-header>
-<app-sidebar [hasSaving]="!!savingData"></app-sidebar>
-<router-outlet></router-outlet>
+<main>
+  <app-sidebar [hasSaving]="!!savingData" [style.top.px]="sbY" style="left: -10px" (touchmove)="touchMove($event)"></app-sidebar>
+  <router-outlet></router-outlet>
+</main>
 <app-footer></app-footer>

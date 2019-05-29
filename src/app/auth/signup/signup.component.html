@@ -31,7 +31,8 @@
     <div class="form-group">
       <label for="password">Repetir contraseña</label>
       <input formControlName="repeatPassword" id="repeat-password" type="password" autocomplete="repeat-password">
-      <ul *ngIf="form.repeatPassword.value && form.repeatPassword.dirty && form.repeatPassword.errors" class="form-feedback">
+      <ul *ngIf="form.repeatPassword.value && form.repeatPassword.dirty && form.repeatPassword.errors"
+        class="form-feedback">
         <li *ngIf="form.repeatPassword.errors.minlength">Contraseña muy corta</li>
         <li *ngIf="form.repeatPassword.errors.mustMatch">Contraseñas deben coincidir</li>
       </ul>
@@ -40,7 +41,10 @@
       {{error}}
     </div>
     <div class="action-group column">
-      <button class="primary" [disabled]="!signupForm.valid" type="submit">Registrarse</button>
+      <button class="primary" [disabled]="!signupForm.valid" type="submit">
+        Registrarse
+        <app-loading *ngIf="showLoading"></app-loading>
+      </button>
       <a routerLink="/login" routerLinkActive="active">Iniciar sesión</a>
     </div>
   </form>

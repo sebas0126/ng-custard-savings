@@ -6,17 +6,34 @@
     <main>
       <app-loading *ngIf="!savingData"></app-loading>
       <ng-container *ngIf="savingData">
-        <h3>{{savingData.name}}</h3>
-        Participantes: {{savingData.userCount}}
+        <div class="info saving-name">
+          <h3>{{savingData.name}}</h3>
+        </div>
+        <div class="info">
+          <div class="title">
+            Participantes
+          </div>
+          <div class="value">
+            {{savingData.userCount}}
+          </div>
+        </div>
+        <div class="info">
+          <div class="title">
+            Pago minimo
+          </div>
+          <div class="value">
+            ${{savingData.minValue}}
+          </div>
+        </div>
       </ng-container>
     </main>
   </section>
   <section id="messages">
-    <header>
-      <h2>Mensajes</h2>
-    </header>
-    <main>
-      <div class="user">
+    <section class="user">
+      <header>
+        <h2>Mensajes para ti</h2>
+      </header>
+      <main>
         <div class="message" *ngFor="let msg of userMessages" [ngClass]="msg.type">
           <div class="type">
             <i class="material-icons">{{msg.icon}}</i>
@@ -29,8 +46,13 @@
           </div>
         </div>
         <app-loading *ngIf="!userMessages"></app-loading>
-      </div>
-      <div class="general" *ngIf="savingData">
+      </main>
+    </section>
+    <section class="general" *ngIf="savingData">
+      <header>
+        <h2>Mensajes generales</h2>
+      </header>
+      <main>
         <div class="message" *ngFor="let msg of generalMessages" [ngClass]="msg.type">
           <div class="type">
             <i class="material-icons">{{msg.icon}}</i>
@@ -43,15 +65,16 @@
           </div>
         </div>
         <app-loading *ngIf="!generalMessages"></app-loading>
-      </div>
-    </main>
+      </main>
+    </section>
   </section>
   <section id="dashboard" *ngIf="savingData">
     <header>
       <h2>Resumen</h2>
     </header>
     <main>
-      <div (click)="goMonth(i)" class="month" *ngFor="let month of monthlySavings; let odd=odd; let even=even; let i = index"
+      <div (click)="goMonth(i)" class="month"
+        *ngFor="let month of monthlySavings; let odd=odd; let even=even; let i = index"
         [ngClass]="{'odd': odd, 'even': even}">
         <h3>{{month.month}}</h3>
         ${{month.money}}

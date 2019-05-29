@@ -18,6 +18,8 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   error: string;
 
+  showLoading: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -40,6 +42,7 @@ export class SignupComponent implements OnInit {
 
   onSubmit() {
     this.error = null;
+    this.showLoading = true;
     this.authService.signup(
       this.form.email.value,
       this.form.password.value,
@@ -50,8 +53,14 @@ export class SignupComponent implements OnInit {
         this.form.lastname.value,
         this.form.email.value
       ).then(res => this.router.navigate([Routes.home])
-      ).catch(err => this.error = Errors.userCreate)
-    }).catch(e => this.error = Errors.signup)
+      ).catch(err => {
+        this.error = Errors.userCreate;
+        this.showLoading = false;
+      })
+    }).catch(e => {
+      this.error = Errors.signup;
+      this.showLoading = false;
+    })
   }
 
 }

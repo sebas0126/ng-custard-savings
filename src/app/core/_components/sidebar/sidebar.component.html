@@ -1,4 +1,7 @@
-<aside>
+<div id="arrow" (click)="toggleBar()">
+  <i class="material-icons">chevron_right</i>
+</div>
+<aside [style.width.px]="showBar ? 150 : 0" [style.max-height.px]="showBar ? 1000 : 0">
   <header>
     <h2>
       {{ hasSaving ? 'Detalle' : 'Sin detalle' }}

@@ -1,12 +1,28 @@
 @import ../../../theme
 
 \:host
-  grid-area: main
   overflow-y: auto 
 
 main
   h2
     margin: 0
+
+#information
+  main
+    display: flex
+    flex-wrap: wrap
+  .info
+    padding: 6px 12px
+    flex: 1 1 10%
+    display: flex
+    flex-direction: column
+    border: 2px dotted $primary
+    &.saving-name
+      justify-content: center
+    .value, .title
+      flex: 1 1
+      text-align: center
+      
 
 #dashboard
   main
@@ -24,6 +40,9 @@ main
       text-align: center
       justify-content: center
       cursor: pointer
+      h3
+        text-overflow: ellipsis
+        overflow: hidden
       &.odd
         background-color: $primary-light
         &:hover
@@ -39,20 +58,22 @@ main
   flex: 1 1
 
 #messages
-  main
-    display: flex
-    flex-direction: column
+  display: flex
+  section
+    flex: 1 1
+    main
+      padding: 6px
   .message
     display: flex
     padding: 6px 0
     &:not(:last-child)
       margin: 0 0 12px 0
     .type
-      flex: 1 1 10%
+      flex: 1 1 50px
       display: flex
       justify-content: center
       align-items: center
-      max-width: 10%
+      max-width: 70px
       i
         font-size: 36px
     .content
@@ -105,6 +126,5 @@ section
     h2
       font-size: 18px
   main
-    padding: 12px
     h1, h2, h3, h4, h5, h6
       margin: 0
