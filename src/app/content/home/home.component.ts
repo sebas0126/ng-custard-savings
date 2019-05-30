@@ -80,7 +80,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       } else {
         this.savingData = null;
         if (this.savingDataSubscription) this.savingDataSubscription.unsubscribe();
-        if (this.userMessageSubscription) this.userMessageSubscription.unsubscribe();
         if (this.generalMessageSubscription) this.generalMessageSubscription.unsubscribe();
       }
     })

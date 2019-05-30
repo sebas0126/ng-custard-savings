@@ -42,7 +42,7 @@ export class MessageService {
     return this.afStore.collection(`${Collections.generalMessage}/${savingId}/${Collections.message}`);
   }
 
-  getUserMessagesState(): Observable<Array<Message>> {
+  getUserMessagesState(): Observable<any> {
     return this.userMessages.valueChanges().pipe(map(uRef => {
       let messages: Array<Message> = [];
       uRef.forEach(msg => {

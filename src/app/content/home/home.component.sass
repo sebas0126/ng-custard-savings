@@ -2,6 +2,7 @@
 
 \:host
   overflow-y: auto 
+  flex: 1 1
 
 main
   h2
@@ -83,8 +84,9 @@ main
     .action
       flex: 2 1
       display: flex
-      justify-content: center
+      justify-content: flex-end
       align-items: center
+      padding: 0 12px
     &.general
       background-color: $general-disabled-light
       border: 2px dotted $general-disabled
