@@ -14,7 +14,8 @@ export enum Collections {
   monthlySavings = 'monthlySavings',
   userMessage = 'userMessage',
   generalMessage = 'generalMessage',
-  message = 'message'
+  message = 'message',
+  month = 'month'
 }
 
 export enum InfoTypes {

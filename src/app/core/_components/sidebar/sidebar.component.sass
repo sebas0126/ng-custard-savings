@@ -19,7 +19,7 @@ aside
   overflow: hidden
 
 header
-  padding: 0 0 0 12px
+  padding: 6px 0 6px 12px
   background-color: $primary
   display: flex
   align-items: center
@@ -35,15 +35,10 @@ main
     list-style: none
     li
       display: flex
-      &:not(:first-child)
-        padding-left: 20px
       &:nth-child(even)
         background-color: $secondary-light
       &:nth-child(odd)
         background-color: $secondary-xlight
-      &:first-child
-        background-color: transparent
-        paddding: 8px 6px
       a
         text-decoration: none
         text-align: left

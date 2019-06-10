@@ -1,8 +1,14 @@
 <header>
   <main>
-    <h1>Custard savings</h1>
+    <a routerLink="/">
+      <img class="icon" src="../../../../assets/img/icon.png" alt="Page logo">
+      <h1>Custard savings</h1>
+    </a>
   </main>
   <nav>
+    <div *ngIf="user?.number" class="number">{{user?.number}}</div>
+    {{user?.firstname}} {{user?.lastname}}
+    &nbsp;
     <i (click)="onLogoutClick()" class="material-icons">power_settings_new</i>
   </nav>
 </header>

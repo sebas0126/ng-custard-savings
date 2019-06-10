@@ -1,20 +1,34 @@
 @import ../../../theme
   
 \:host
-  grid-area: main
+  flex: 1 1
 
 header
+  border: 1px solid transparent
   h2
     margin: 0
     font-size: 18px
-    padding: 12px
+    padding: 6px 12px
+    background-color: $primary
 
 main
   padding: 12px
 
+#missing
+  ul
+    color: $general-error
+
+#other
+  margin: 16px 0 0 0
+  h3
+    font-size: 18px
+
 #detail
   width: 100%
   border: 2px solid $general-disabled-light
+  flex: 1 1
+  th
+    background-color: $primary
   tr
     &:nth-child(odd)
       background-color: $primary-light
@@ -22,6 +36,12 @@ main
       background-color: $secondary-light
     &:last-child
       font-weight: bold
+    &.missing
+      color: $general-error
+    &.complete
+      color: $primary-xdark
+    &.coming
+      color: $general-dark
   td, th
     &:first-child
       border-right: 2px solid $general-disabled-light

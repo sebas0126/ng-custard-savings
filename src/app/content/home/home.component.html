@@ -73,13 +73,60 @@
       <h2>Resumen</h2>
     </header>
     <main>
-      <div (click)="goMonth(i)" class="month"
-        *ngFor="let month of monthlySavings; let odd=odd; let even=even; let i = index"
-        [ngClass]="{'odd': odd, 'even': even}">
-        <h3>{{month.month}}</h3>
-        ${{month.money}}
-      </div>
-      <app-loading *ngIf="!monthlySavings"></app-loading>
+      <section id="summary">
+        <ng-container *ngIf="savingData">
+          <div class="summ">
+            <div class="title">
+              Ahorrado
+            </div>
+            <div class="value">
+              ${{userSaving?.savingsTotal}}
+            </div>
+          </div>
+          <div class="summ">
+            <div class="title">
+              Pollas
+            </div>
+            <div class="value">
+              ${{userSaving?.lotteryTotal}}
+            </div>
+          </div>
+          <div class="summ">
+            <div class="title">
+              Eventos
+            </div>
+            <div class="value">
+              ${{userSaving?.eventsTotal}}
+            </div>
+          </div>
+          <div class="summ">
+            <div class="title">
+              Ganado pollas
+            </div>
+            <div class="value">
+              ${{userSaving?.winTotal}}
+            </div>
+          </div>
+          <div class="summ">
+            <div class="title">
+              <strong>Total</strong>
+            </div>
+            <div class="value">
+              <strong>${{userSaving?.moneyTotal}}</strong>
+            </div>
+          </div>
+        </ng-container>
+        <app-loading *ngIf="!savingData"></app-loading>
+      </section>
+      <section id="months">
+        <div (click)="goMonth(i)" class="month"
+          *ngFor="let month of monthlySavings; let odd=odd; let even=even; let i = index"
+          [style.borderColor]="verifyMonthState(month)">
+          <h3>{{month.month}}</h3>
+          ${{month.money}}
+        </div>
+        <app-loading *ngIf="!monthlySavings"></app-loading>
+      </section>
     </main>
   </section>
 </main>

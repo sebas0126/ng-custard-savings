@@ -12,6 +12,9 @@ import { MonthlySaving } from 'src/app/core/_models/monthlySaving.model';
 import { MessageService } from 'src/app/core/_services/message/message.service';
 import { Message } from 'src/app/core/_models/message.model';
 import { Router } from '@angular/router';
+import { Saving } from 'src/app/core/_models/saving,model';
+import { MonthData } from 'src/app/core/_models/monthData.model';
+import { InfoTypes } from 'src/app/core/_strings/constants';
 
 @Component({
   selector: 'app-home',
@@ -27,16 +30,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   savingId: string;
   savingData: SavingData;
   monthlySavings: Array<MonthlySaving>;
+  months : Array<MonthData>;
+  saving: Saving;
+  userSaving: Saving;
 
   userMessages: Array<Message> = [];
   generalMessages: Array<Message> = [];
-  months: Array<any> = [];
 
   userSubscription: Subscription;
   savingDataSubscription: Subscription;
   monthlySavingSubscription: Subscription;
   generalMessageSubscription: Subscription;
   userMessageSubscription: Subscription;
+  savingSubscription: Subscription;
+  userSavingSubscription: Subscription;
 
   constructor(
     private modalService: ModalService,
@@ -58,6 +65,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.savingDataSubscription) this.savingDataSubscription.unsubscribe();
     if (this.userMessageSubscription) this.userMessageSubscription.unsubscribe();
     if (this.generalMessageSubscription) this.generalMessageSubscription.unsubscribe();
+    if (this.savingSubscription) this.savingSubscription.unsubscribe();
+    if (this.userSavingSubscription) this.userSavingSubscription.unsubscribe();
   }
 
   get form() {
@@ -77,11 +86,14 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.getSavingData(user.saving);
         this.getMonthlySavings();
         this.getGeneralMessages(user.saving);
+        this.getUserSaving();
+        this.getMonthData();
       } else {
         this.savingData = null;
         if (this.savingDataSubscription) this.savingDataSubscription.unsubscribe();
-        if (this.userMessageSubscription) this.userMessageSubscription.unsubscribe();
         if (this.generalMessageSubscription) this.generalMessageSubscription.unsubscribe();
+        if (this.savingSubscription) this.savingSubscription.unsubscribe();
+        if (this.userSavingSubscription) this.userSavingSubscription.unsubscribe();
       }
     })
   }
@@ -92,13 +104,27 @@ export class HomeComponent implements OnInit, OnDestroy {
     })
   }
 
+  getMonthData(){
+    this.savingService.getAllMonthDataState().subscribe(data => this.months = data);
+  }
+
   getSavingData(savingId: string) {
     this.savingService.obtainSavingData(savingId);
     this.savingDataSubscription = this.savingService.getSavingDataState().subscribe(data => this.savingData = data);
   }
 
+  getSaving() {
+    this.savingSubscription = this.savingService.getSavingState().subscribe(data => this.saving = data);
+  }
+
+  getUserSaving() {
+    this.userSavingSubscription = this.savingService.getUserSavingState().subscribe(data => {
+      this.userSaving = data
+    });
+  }
+
   getMonthlySavings() {
-    this.monthlySavingSubscription = this.savingService.getAllMonthlySavingsState().subscribe(data => this.monthlySavings = data)
+    this.monthlySavingSubscription = this.savingService.getAllMonthlySavingsState().subscribe(data => this.monthlySavings = data.sort((a, b) => a.monthId - b.monthId))
   }
 
   getGeneralMessages(savingId: string) {
@@ -125,10 +151,28 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.closeModal();
   }
 
-  goMonth(month: string){
+  goMonth(month: string) {
     this.router.navigate([`content/month/${month}`]);
   }
-  
+
+  verifyMonthState(month: MonthlySaving){
+    let currMonth = new Date().getMonth();
+    if(month.monthId > currMonth) return;
+    if(!month) return; 
+    if(!this.months) return;
+    if(month.savings > 0 && month.lottery > 0){
+      let monthData = this.months.find(x => x.month === month.monthId);
+      if(monthData.event){
+        if(month.events > 0) return "#7CB342";
+        else return "#FFB300";
+      }else{
+        return "#7CB342";
+      }
+    }else{
+      return "#B71C1C";
+    }
+  }
+
   messageAction = {
     joinRequest: this.showModal
   }

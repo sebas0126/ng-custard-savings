@@ -3,5 +3,6 @@ export interface User {
   firstname: string;
   lastname: string;
   saving?: string;
-  request?: string
+  request?: string;
+  number?: number;
 }

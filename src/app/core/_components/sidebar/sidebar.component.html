@@ -9,7 +9,6 @@
   </header>
   <main>
     <ul *ngIf="hasSaving">
-      <li><a routerLink="home">Principal</a></li>
       <li *ngFor="let month of months">
         <a [routerLink]="month.url">{{month.text}}</a>
       </li>

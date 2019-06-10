@@ -7,25 +7,41 @@
       <th>Concepto</th>
       <th>Cantidad</th>
     </tr>
-    <tr>
+    <tr
+      [ngClass]="{'missing': monthlySaving?.savings <= 0, 'complete': monthlySaving?.savings > 0, 'coming': isComing}">
       <td>Ahorro</td>
-      <td>{{monthlySaving?.savings}}</td>
+      <td>${{monthlySaving?.savings}}</td>
     </tr>
-    <tr>
+    <tr
+      [ngClass]="{'missing': monthlySaving?.lottery <= 0, 'complete': monthlySaving?.lottery > 0, 'coming': isComing}">
       <td>Polla</td>
-      <td>{{monthlySaving?.lottery}}</td>
+      <td>${{monthlySaving?.lottery}}</td>
     </tr>
     <tr>
       <td>Gano polla</td>
-      <td>{{monthlySaving?.win}}</td>
+      <td>${{monthlySaving?.win}}</td>
     </tr>
-    <tr>
+    <tr
+      [ngClass]="{'missing': monthlySaving?.events <= 0 && monthData?.event, 'complete': monthlySaving?.events > 0 && monthData?.event, 'coming': isComing}">
       <td>Evento</td>
-      <td>{{monthlySaving?.events}}</td>
+      <td>${{monthlySaving?.events}}</td>
     </tr>
     <tr>
       <td>Total</td>
-      <td>{{monthlySaving?.money}}</td>
+      <td>${{monthlySaving?.money}}</td>
     </tr>
   </table>
+  <section id="missing" *ngIf="missing?.length > 0 && !isComing">
+    <h3>En mora</h3>
+    <ul>
+      <li *ngFor="let item of missing">{{item}}</li>
+    </ul>
+  </section>
+  <section id="other" *ngIf="monthData">
+    <h3>Otra información</h3>
+    <ul>
+      <li><strong>Evento: </strong>{{ monthData.event ? monthData.eventName : 'Sin evento' }}</li>
+      <li *ngIf="monthData.eventValue"><strong>Valor del evento: </strong>${{ monthData.eventValue }}</li>
+    </ul>
+  </section>
 </main>

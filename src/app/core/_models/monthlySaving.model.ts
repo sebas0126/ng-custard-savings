@@ -5,4 +5,5 @@ export interface MonthlySaving{
   win: number;
   money: number;
   month: string;
+  monthId: number;
 }
